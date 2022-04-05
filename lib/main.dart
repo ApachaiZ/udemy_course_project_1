@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:udemy_course_project_1/widgets/new_transaction.dart';
+import 'package:udemy_course_project_1/widgets/transaction_list.dart';
 
-import './widgets/user_transactions.dart';
+import 'models/transaction.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,27 +16,81 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Udemy Course',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
       ),
       home: const MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final List<Transaction> _userTransactions = [
+    Transaction(
+      id: "t1",
+      title: "Inosuke Sweat-shirt",
+      amount: 15.99,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: "t2",
+      title: "Nezuko Sweat-shirt",
+      amount: 11.99,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: "t3",
+      title: "Inosuke Portefeuille",
+      amount: 4.99,
+      date: DateTime.now(),
+    ),
+  ];
+
+  void _addNewTransaction(String title, double amount) {
+    setState(() {
+      _userTransactions.add(Transaction(
+          id: "t${_userTransactions.length}",
+          title: title,
+          amount: amount,
+          date: DateTime.now()));
+    });
+  }
+
+  void _startAddNewTransaction(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (_) {
+          return GestureDetector(
+            child: NewTransaction(addNewTransaction: _addNewTransaction),
+            onTap: () {},
+            behavior: HitTestBehavior.opaque,
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Flutter Udemy Course"),
+        actions: const [
+          IconButton(
+            onPressed: null,
+            icon: Icon(Icons.add),
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: const [
-            SizedBox(
+          children: [
+            const SizedBox(
               width: double.infinity,
               child: Card(
                 color: Colors.lightBlue,
@@ -42,9 +98,14 @@ class MyHomePage extends StatelessWidget {
                 elevation: 5,
               ),
             ),
-            UserTransactions(),
+            SizedBox(child: TransactionList(transactions: _userTransactions)),
           ],
         ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () => _startAddNewTransaction(context),
       ),
     );
   }
