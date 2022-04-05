@@ -17,6 +17,14 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Udemy Course',
       theme: ThemeData(
         primarySwatch: Colors.red,
+        fontFamily: 'Quicksand',
+        appBarTheme: const AppBarTheme(
+          titleTextStyle: TextStyle(
+            fontFamily: 'OpenSans',
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       home: const MyHomePage(),
     );
@@ -79,10 +87,10 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Flutter Udemy Course"),
-        actions: const [
+        actions: [
           IconButton(
-            onPressed: null,
-            icon: Icon(Icons.add),
+            onPressed: () => _startAddNewTransaction(context),
+            icon: const Icon(Icons.add),
           )
         ],
       ),
@@ -90,11 +98,11 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(
+            SizedBox(
               width: double.infinity,
               child: Card(
-                color: Colors.lightBlue,
-                child: Text("CHART"),
+                color: Theme.of(context).primaryColorLight,
+                child: const Text("CHART"),
                 elevation: 5,
               ),
             ),
