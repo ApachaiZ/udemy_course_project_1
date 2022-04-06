@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:udemy_course_project_1/widgets/chart.dart';
 import 'package:udemy_course_project_1/widgets/new_transaction.dart';
 import 'package:udemy_course_project_1/widgets/transaction_list.dart';
 
@@ -39,26 +40,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _userTransactions = [
-    Transaction(
-      id: "t1",
-      title: "Inosuke Sweat-shirt",
-      amount: 15.99,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: "t2",
-      title: "Nezuko Sweat-shirt",
-      amount: 11.99,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: "t3",
-      title: "Inosuke Portefeuille",
-      amount: 4.99,
-      date: DateTime.now(),
-    ),
-  ];
+  final List<Transaction> _userTransactions = [];
+
+  List<Transaction> get _recentTransaction {
+    return _userTransactions.where((transact) {
+      return transact.date
+          .isAfter(DateTime.now().subtract(const Duration(days: 7)));
+    }).toList();
+  }
 
   void _addNewTransaction(String title, double amount) {
     setState(() {
@@ -98,13 +87,8 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(
-              width: double.infinity,
-              child: Card(
-                color: Theme.of(context).primaryColorLight,
-                child: const Text("CHART"),
-                elevation: 5,
-              ),
+            Chart(
+              recentTransactions: _recentTransaction,
             ),
             SizedBox(child: TransactionList(transactions: _userTransactions)),
           ],
