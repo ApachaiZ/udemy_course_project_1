@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:udemy_course_project_1/models/transaction.dart';
+import 'package:udemy_course_project_1/widgets/chart_bar.dart';
 
 class Chart extends StatelessWidget {
   static const int numberOfDays = 7;
@@ -9,7 +10,13 @@ class Chart extends StatelessWidget {
 
   final List<Transaction> recentTransactions;
 
-  List<Map<String, Object>> get groupedTransactionValues {
+  double get totalSpending {
+    return groupedTransactionValues.fold(0.0, (sum, item) {
+      return sum + item['amount'];
+    });
+  }
+
+  List<Map<String, dynamic>> get groupedTransactionValues {
     return List.generate(numberOfDays, (index) {
       final weekDay = DateTime.now().subtract(
         Duration(days: index),
@@ -34,10 +41,23 @@ class Chart extends StatelessWidget {
     return Card(
       elevation: 8,
       margin: const EdgeInsets.all(20),
-      child: Row(
-        children: groupedTransactionValues.map((data) {
-          return Text("${data['day']} + ${data['amount'].toString()}");
-        }).toList(),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: groupedTransactionValues.map((data) {
+            return Flexible(
+              fit: FlexFit.tight,
+              child: ChartBar(
+                label: data['day'],
+                spendingAmount: data['amount'],
+                spendingPctOfTotal: totalSpending == 0.0
+                    ? 0.0
+                    : (data['amount'] as double) / totalSpending,
+              ),
+            );
+          }).toList(),
+        ),
       ),
     );
   }
