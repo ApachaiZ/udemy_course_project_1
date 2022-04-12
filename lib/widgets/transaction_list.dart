@@ -16,7 +16,7 @@ class TransactionList extends StatelessWidget {
           ? Column(
               children: [
                 Text(
-                  "Pas de transaction ! ",
+                  "Pas de transaction !",
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(
@@ -31,57 +31,56 @@ class TransactionList extends StatelessWidget {
                 ),
               ],
             )
-          : ListView(
-              children: transactions.map(
-                (tx) {
-                  return Card(
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 100,
-                          padding: const EdgeInsets.all(10),
-                          margin: const EdgeInsets.symmetric(
-                            vertical: 10,
-                            horizontal: 15,
+          : ListView.builder(
+              itemBuilder: (ctx, index) {
+                return Card(
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 100,
+                        padding: const EdgeInsets.all(10),
+                        margin: const EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 15,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Theme.of(context).primaryColorDark,
+                            width: 2,
                           ),
-                          decoration: BoxDecoration(
-                            border: Border.all(
+                        ),
+                        child: Center(
+                          child: Text(
+                            "${transactions[index].amount.toStringAsFixed(2)}€",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
                               color: Theme.of(context).primaryColorDark,
-                              width: 2,
-                            ),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "${tx.amount.toStringAsFixed(2)}€",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                color: Theme.of(context).primaryColorDark,
-                              ),
                             ),
                           ),
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              tx.title,
-                              style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            transactions[index].title,
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          Text(
+                            DateFormat.yMMMMd().format(transactions[index].date),
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontWeight: FontWeight.bold,
                             ),
-                            Text(
-                              DateFormat.yMMMMd().format(tx.date),
-                              style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ).toList(),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
+              itemCount: transactions.length,
             ),
     );
   }
