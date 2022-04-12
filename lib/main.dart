@@ -41,6 +41,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [];
+
   List<Transaction> get _recentTransaction {
     return _userTransactions.where((transact) {
       return transact.date
@@ -89,7 +90,9 @@ class _MyHomePageState extends State<MyHomePage> {
             Chart(
               recentTransactions: _recentTransaction,
             ),
-            const SizedBox(height: 40,),
+            const SizedBox(
+              height: 10,
+            ),
             SizedBox(child: TransactionList(transactions: _userTransactions)),
           ],
         ),
