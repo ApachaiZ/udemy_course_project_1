@@ -63,7 +63,7 @@ class TransactionList extends StatelessWidget {
                       DateFormat.yMMMd().format(transactions[index].date),
                     ),
                     trailing: ElevatedButton(
-                      child: const Icon(Icons.recycling),
+                      child: const Icon(Icons.delete),
                       onPressed: () {
                         emptyThisTransaction(index);
                       },
