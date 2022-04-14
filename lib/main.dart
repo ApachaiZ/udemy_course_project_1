@@ -19,6 +19,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
         fontFamily: 'Quicksand',
+        textTheme: ThemeData.light().textTheme.copyWith(
+              titleLarge: const TextStyle(
+                fontFamily: 'OpenSans',
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
         appBarTheme: const AppBarTheme(
           titleTextStyle: TextStyle(
             fontFamily: 'OpenSans',
@@ -26,7 +33,6 @@ class MyApp extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-
       ),
       home: const MyHomePage(),
     );
