@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+
       ),
       home: const MyHomePage(),
     );
@@ -56,6 +57,18 @@ class _MyHomePageState extends State<MyHomePage> {
           title: title,
           amount: amount,
           date: DateTime.now()));
+    });
+  }
+
+  void _emptyTransactions() {
+    setState(() {
+      _userTransactions.clear();
+    });
+  }
+
+  void _emptyThisTransaction(int index) {
+    setState(() {
+      _userTransactions.removeAt(index);
     });
   }
 
@@ -93,7 +106,13 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(
               height: 10,
             ),
-            SizedBox(child: TransactionList(transactions: _userTransactions)),
+            SizedBox(
+              child: TransactionList(
+                transactions: _userTransactions,
+                emptyTransactions: _emptyTransactions,
+                emptyThisTransaction: _emptyThisTransaction,
+              ),
+            ),
           ],
         ),
       ),

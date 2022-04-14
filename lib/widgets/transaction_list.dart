@@ -4,9 +4,15 @@ import 'package:intl/intl.dart';
 import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
-  const TransactionList({Key? key, required this.transactions})
-      : super(key: key);
+  const TransactionList({
+    Key? key,
+    required this.transactions,
+    required this.emptyTransactions,
+    required this.emptyThisTransaction,
+  }) : super(key: key);
   final List<Transaction> transactions;
+  final VoidCallback emptyTransactions;
+  final Function emptyThisTransaction;
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +61,12 @@ class TransactionList extends StatelessWidget {
                     ),
                     subtitle: Text(
                       DateFormat.yMMMd().format(transactions[index].date),
+                    ),
+                    trailing: ElevatedButton(
+                      child: const Icon(Icons.recycling),
+                      onPressed: () {
+                        emptyThisTransaction(index);
+                      },
                     ),
                   ),
                 );

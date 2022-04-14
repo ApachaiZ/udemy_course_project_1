@@ -51,11 +51,28 @@ class _NewTransactionState extends State<NewTransaction> {
                   const TextInputType.numberWithOptions(decimal: true),
               onSubmitted: (_) => submitData(),
             ),
-            TextButton(
+            SizedBox(
+              height: 70,
+              child: Row(
+                children: [
+                  const Text("Entrer la date: "),
+                  TextButton(
+                      onPressed: () => showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime.now()
+                                .subtract(const Duration(days: 6)),
+                            lastDate: DateTime.now(),
+                          ),
+                      child: const Text("Ajouter une date"))
+                ],
+              ),
+            ),
+            ElevatedButton(
               onPressed: submitData,
               child: const Text(
                 "Ajouter transaction",
-                style: TextStyle(color: Colors.redAccent),
+                style: TextStyle(color: Colors.white),
               ),
             ),
           ],
